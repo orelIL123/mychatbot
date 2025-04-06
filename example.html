@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דוגמה לשילוב GPT-Chat Widget</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            direction: rtl;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #0078ff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #0078ff;
+            border-bottom: 2px solid #f0f4f8;
+            padding-bottom: 10px;
+        }
+        .config-example {
+            background-color: #f0f4f8;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            direction: ltr;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>דוגמה לשילוב GPT-Chat Widget</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <div class="section">
+                <h2>ברוכים הבאים לאתר הדוגמה</h2>
+                <p>זהו אתר דוגמה המציג את שילוב ה-GPT-Chat Widget באתר אינטרנט. הצ'אט מופיע בפינה הימנית התחתונה של המסך.</p>
+                <p>לחץ על כפתור הצ'אט כדי לפתוח את חלון השיחה ולהתחיל לדבר עם העוזר הווירטואלי.</p>
+            </div>
+
+            <div class="section">
+                <h2>אפשרויות התאמה אישית</h2>
+                <p>ניתן להתאים את הצ'אט לצרכים שלך על ידי שינוי הפרמטרים בעת האתחול:</p>
+                <div class="config-example">
+GPTChatWidget.init({
+    apiUrl: 'https://your-api-url.com/api/chat',
+    clientId: 'restaurant', // או client_id אחר
+    position: 'bottom-right', // או 'bottom-left'
+    primaryColor: '#0078ff',
+    secondaryColor: '#f0f4f8',
+    headerText: 'שאל/י אותנו',
+    placeholderText: 'הקלד/י הודעה...',
+    welcomeMessage: 'שלום! במה אוכל לעזור לך היום?',
+    autoOpen: false
+});
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- שילוב ה-Widget -->
+    <script src="widget.js"></script>
+    <script>
+        // אתחול ה-Widget עם הגדרות מותאמות אישית
+        document.addEventListener('DOMContentLoaded', function() {
+            GPTChatWidget.init({
+                apiUrl: 'http://localhost:3000/api/chat', // יש לשנות לכתובת ה-API האמיתית בעת הפריסה
+                clientId: 'restaurant', // דוגמה לשימוש ב-client_id של מסעדה
+                primaryColor: '#0078ff',
+                welcomeMessage: 'שלום! ברוכים הבאים למסעדה שלנו. במה אוכל לעזור לך היום?'
+            });
+        });
+    </script>
+</body>
+</html>
