@@ -4,7 +4,7 @@
 (function() {
   // Widget configuration
   const config = {
-    apiUrl: 'https://your-api-url.com/api/chat', // Will be replaced during deployment
+    apiUrl: '/api/chat', // Will be replaced during initialization
     clientId: null, // Will be set during initialization
     position: 'bottom-right',
     primaryColor: '#0078ff',
