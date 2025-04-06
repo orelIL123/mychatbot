@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   postcss: {
     plugins: {
@@ -6,4 +7,6 @@ module.exports = {
       autoprefixer: {},
     },
   },
-}
+};
+
+module.exports = nextConfig;
