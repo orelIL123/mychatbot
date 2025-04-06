@@ -1,178 +1,70 @@
-# הוראות פריסה למערכת GPT-Chat
+# הוראות פריסה לאתר GPT-Chat ב-Vercel
 
-## התקנה על Vercel
+כדי לפרוס את האתר ב-Vercel, עליך לבצע את השלבים הבאים:
 
-### 1. הכנת הפרויקט לפריסה
+## 1. הכנת הקוד לפריסה
 
-1. ודא שיש לך חשבון ב-Vercel (https://vercel.com).
-2. התקן את ה-CLI של Vercel:
-   ```bash
-   npm install -g vercel
+1. ודא שכל הקבצים הנדרשים קיימים:
+   - `vercel.json` - הגדרות פריסה
+   - `next.config.js` - הגדרות Next.js
+   - `postcss.config.js` - הגדרות PostCSS
+   - `.env.local` - משתני סביבה מקומיים (לא יועלה ל-Vercel)
+
+2. הוסף את מפתח ה-API של OpenAI ל-`.env.local` לבדיקות מקומיות:
    ```
-3. התחבר ל-Vercel מה-CLI:
-   ```bash
-   vercel login
-   ```
-
-### 2. הגדרת משתני סביבה
-
-1. צור קובץ `.env` בתיקיית ה-backend (העתק מ-`.env.example`):
-   ```
-   PORT=3000
    OPENAI_API_KEY=your-openai-api-key-here
    ```
-2. בפורטל של Vercel, הגדר את משתני הסביבה הבאים:
-   - `OPENAI_API_KEY`: מפתח ה-API של OpenAI שלך
 
-### 3. פריסת ה-Backend API
+## 2. העלאת הקוד ל-GitHub
 
-1. עבור לתיקיית ה-backend:
+1. צור מאגר חדש ב-GitHub
+2. העלה את הקוד למאגר:
    ```bash
-   cd backend
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/orelil123/gpt-chat-website.git
+   git push -u origin main
    ```
-2. צור קובץ `vercel.json` עם התוכן הבא:
-   ```json
-   {
-     "version": 2,
-     "builds": [
-       { "src": "server.js", "use": "@vercel/node" }
-     ],
-     "routes": [
-       { "src": "/(.*)", "dest": "/server.js" }
-     ]
-   }
-   ```
-3. פרוס את ה-API:
+
+## 3. פריסה ב-Vercel
+
+1. התחבר ל-Vercel עם חשבון ה-GitHub שלך (orelil123)
+2. לחץ על "New Project"
+3. בחר את המאגר `gpt-chat-website`
+4. הגדר את משתני הסביבה:
+   - `OPENAI_API_KEY`: המפתח שלך ל-OpenAI API
+5. לחץ על "Deploy"
+
+## 4. בדיקת האתר המפורס
+
+1. לאחר סיום הפריסה, תקבל כתובת URL לאתר (לדוגמה: `https://gpt-chat-website.vercel.app`)
+2. בדוק את הדפים השונים:
+   - דף הבית
+   - דף הדגמה
+   - דף תיעוד
+   - דף ניהול
+3. בדוק את פונקציונליות הצ'אט עם מוחות שונים
+
+## 5. הגדרת דומיין מותאם אישית (אופציונלי)
+
+1. ב-Vercel, עבור לפרויקט ולחץ על "Settings" > "Domains"
+2. הוסף את הדומיין שלך ועקוב אחר ההוראות להגדרת רשומות DNS
+
+## 6. עדכון האתר
+
+1. בצע שינויים מקומיים
+2. העלה את השינויים ל-GitHub:
    ```bash
-   vercel --prod
+   git add .
+   git commit -m "Update description"
+   git push
    ```
-4. שמור את כתובת ה-URL שתתקבל (לדוגמה: `https://gpt-chat-api.vercel.app`).
+3. Vercel יפרוס אוטומטית את הגרסה החדשה
 
-### 4. עדכון ה-Frontend Widget
+## הערות חשובות
 
-1. עדכן את קובץ ה-widget.js עם כתובת ה-API החדשה:
-   ```javascript
-   const config = {
-     apiUrl: 'https://gpt-chat-api.vercel.app/api/chat',
-     // שאר ההגדרות...
-   };
-   ```
-2. אם ברצונך לפרוס גם את דף הדוגמה, עדכן גם את ה-URL בקובץ example.html.
-
-### 5. פריסת ה-Frontend (אופציונלי)
-
-1. עבור לתיקיית ה-frontend:
-   ```bash
-   cd ../frontend
-   ```
-2. צור קובץ `vercel.json` עם התוכן הבא:
-   ```json
-   {
-     "version": 2,
-     "builds": [
-       { "src": "*.html", "use": "@vercel/static" },
-       { "src": "*.js", "use": "@vercel/static" }
-     ]
-   }
-   ```
-3. פרוס את ה-frontend:
-   ```bash
-   vercel --prod
-   ```
-
-## הוספת לקוח חדש
-
-### 1. יצירת "מוח" חדש
-
-1. צור קובץ JSON חדש בתיקיית `minds` עם שם הלקוח (לדוגמה: `new_client.json`):
-   ```json
-   {
-     "name": "שם העסק",
-     "description": "תיאור קצר של העסק",
-     "systemPrompt": "אתה עוזר וירטואלי של [שם העסק]. דבר בעברית בטון [סגנון מתאים]. עזור ללקוחות בשאלות לגבי [תחומי העסק]. [מידע נוסף על העסק, שעות פעילות, מבצעים, וכו'].",
-     "createdAt": "2025-04-06T19:00:00.000Z",
-     "updatedAt": "2025-04-06T19:00:00.000Z"
-   }
-   ```
-2. העלה את הקובץ לשרת ה-API (לתיקיית `minds`).
-
-### 2. שימוש ב-API להוספת לקוח חדש
-
-לחלופין, ניתן להשתמש ב-API להוספת לקוח חדש:
-
-```bash
-curl -X POST https://gpt-chat-api.vercel.app/api/minds \
-  -H "Content-Type: application/json" \
-  -d '{
-    "clientId": "new_client",
-    "name": "שם העסק",
-    "description": "תיאור קצר של העסק",
-    "systemPrompt": "אתה עוזר וירטואלי של [שם העסק]. דבר בעברית בטון [סגנון מתאים]. עזור ללקוחות בשאלות לגבי [תחומי העסק]. [מידע נוסף על העסק, שעות פעילות, מבצעים, וכו']."
-  }'
-```
-
-## שינוי "מוח" ללקוח קיים
-
-### 1. עדכון קובץ ה-JSON
-
-1. ערוך את קובץ ה-JSON של הלקוח בתיקיית `minds`.
-2. העלה את הקובץ המעודכן לשרת ה-API.
-
-### 2. שימוש ב-API לעדכון לקוח קיים
-
-לחלופין, ניתן להשתמש ב-API לעדכון לקוח קיים:
-
-```bash
-curl -X PUT https://gpt-chat-api.vercel.app/api/minds/client_id \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "שם העסק המעודכן",
-    "description": "תיאור מעודכן של העסק",
-    "systemPrompt": "מוח מעודכן עבור העסק..."
-  }'
-```
-
-## הטמעת הצ'אט באתר
-
-### 1. הוספת קובץ ה-Widget לאתר
-
-1. העלה את קובץ `widget.js` לשרת האתר שלך או השתמש ב-CDN.
-
-### 2. הוספת קוד ההטמעה לאתר
-
-הוסף את הקוד הבא לפני תג הסגירה של `</body>` בכל עמוד בו תרצה להציג את הצ'אט:
-
-```html
-<!-- שילוב ה-Widget -->
-<script src="https://your-domain.com/path/to/widget.js"></script>
-<script>
-  // אתחול ה-Widget עם הגדרות מותאמות אישית
-  document.addEventListener('DOMContentLoaded', function() {
-    GPTChatWidget.init({
-      apiUrl: 'https://gpt-chat-api.vercel.app/api/chat',
-      clientId: 'your_client_id', // מזהה הלקוח שלך
-      primaryColor: '#0078ff', // צבע ראשי לפי העיצוב של האתר
-      welcomeMessage: 'שלום! במה אוכל לעזור לך היום?'
-    });
-  });
-</script>
-```
-
-### 3. התאמה אישית של ה-Widget
-
-ניתן להתאים את ה-Widget באמצעות הפרמטרים הבאים:
-
-```javascript
-GPTChatWidget.init({
-  apiUrl: 'https://gpt-chat-api.vercel.app/api/chat', // כתובת ה-API
-  clientId: 'your_client_id', // מזהה הלקוח
-  position: 'bottom-right', // מיקום הצ'אט: 'bottom-right' או 'bottom-left'
-  primaryColor: '#0078ff', // צבע ראשי
-  secondaryColor: '#f0f4f8', // צבע משני
-  headerText: 'שאל/י אותנו', // טקסט בכותרת הצ'אט
-  placeholderText: 'הקלד/י הודעה...', // טקסט בשדה הקלט
-  welcomeMessage: 'שלום! במה אוכל לעזור לך היום?', // הודעת פתיחה
-  logoUrl: 'https://your-domain.com/logo.png', // לוגו מותאם אישית (אופציונלי)
-  autoOpen: false // האם לפתוח את הצ'אט אוטומטית בטעינת העמוד
-});
-```
+- ודא שמפתח ה-API של OpenAI מוגדר כראוי ב-Vercel
+- אל תעלה את קובץ `.env.local` ל-GitHub (הוא כבר מוגדר ב-.gitignore)
+- בדוק את האתר בגרסה המפורסת לפני שיתוף הקישור עם משתמשים
